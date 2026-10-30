@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp.*
+
+# Build output
+dist/
+.next/
+out/
+.turbo/
+
+# Env — ignore all real env files, keep *.example templates
+.env
+.env.local
+.env*.local
+interhuman-bridge.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Runtime / data
+*.sqlite
+*.sqlite3
+*.db
+/tmp/
+apps/stream-proxy/.work/
+.focal-clips/
+# Local report/session store (may contain real meeting data + PII)
+apps/web/.data/
+# Throwaway/dev scripts (may reference live API keys)
+scripts/
+
+# Type info
+*.tsbuildinfo
+.vercel
+.env*
+!.env.example
+!*.env.example

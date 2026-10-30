@@ -1,0 +1,54 @@
+{
+  "id": "sample-1on1",
+  "title": "Sample 1:1 conversation",
+  "video": "sample-1on1.webm",
+  "durationS": 42,
+  "participants": [
+    { "id": "you", "name": "You", "talkTimeS": 24 },
+    { "id": "frederik", "name": "Frederik", "talkTimeS": 12 }
+  ],
+  "transcript": [
+    {
+      "index": 0,
+      "speaker": "Frederik",
+      "startS": 0,
+      "endS": 6,
+      "text": "Wait, before we start \u2014 is this thing analyzing everyone on the call right now?"
+    },
+    {
+      "index": 1,
+      "speaker": "You",
+      "startS": 6,
+      "endS": 14,
+      "text": "No, it only looks at one person at a time, and just for this demo. Nothing is being recorded about the rest of the room."
+    },
+    {
+      "index": 2,
+      "speaker": "Frederik",
+      "startS": 14,
+      "endS": 18,
+      "text": "Okay, good. I just wanted to make sure before we dug in."
+    },
+    {
+      "index": 3,
+      "speaker": "You",
+      "startS": 18,
+      "endS": 28,
+      "text": "Totally fair. So the way it works is we slice the call into short windows and run each one through the model, then line the signals back up against what was actually said."
+    },
+    {
+      "index": 4,
+      "speaker": "Frederik",
+      "startS": 28,
+      "endS": 32,
+      "text": "Nice. And that's how you get the confidence and hesitation read?"
+    },
+    {
+      "index": 5,
+      "speaker": "You",
+      "startS": 32,
+      "endS": 42,
+      "text": "Exactly. It picks up on the moments where you sound steady versus where there's a bit of stress in the delivery, and ties each one to a line in the transcript."
+    }
+  ]
+}

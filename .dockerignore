@@ -1,0 +1,35 @@
+# Root-level .dockerignore for the interhuman-bridge build context
+# Keep Cloud Build upload lean — only what the stream-proxy Dockerfile needs.
+
+# Exclude the other app and all generated output
+apps/web
+apps/web/**
+
+# Build outputs (rebuilt inside Docker)
+**/dist
+**/.next
+**/node_modules
+
+# Dev/local config — secrets must never be baked into the image
+**/.env*
+**/.env.local*
+demo.sh
+scripts/
+
+# VCS + editor
+.git
+.gitignore
+.gitattributes
+.cursor
+.vscode
+
+# Test / coverage artefacts
+**/coverage
+**/__tests__
+**/*.test.ts
+**/*.spec.ts
+
+# Misc
+.DS_Store
+**/*.log
+**/npm-debug.log*

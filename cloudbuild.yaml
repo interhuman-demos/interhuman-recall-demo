@@ -1,0 +1,30 @@
+# Cloud Build config for the interhuman-bridge image.
+# Run from the repo root:
+#   gcloud builds submit . --config=cloudbuild.yaml --project=YOUR_GCP_PROJECT_ID
+#
+# Substitutions can be overridden at submit time:
+#   --substitutions=_LOCATION=europe-west1,_PROJECT=YOUR_GCP_PROJECT_ID
+
+substitutions:
+  _PROJECT: "YOUR_GCP_PROJECT_ID"
+  _LOCATION: "europe-west1"
+  _REPO: "interhuman"
+  _IMAGE: "bridge"
+  _TAG: "latest"
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - build
+      - --file=apps/stream-proxy/Dockerfile
+      - --tag=${_LOCATION}-docker.pkg.dev/${_PROJECT}/${_REPO}/${_IMAGE}:${_TAG}
+      # Build cache from the last latest push (speeds up repeated builds)
+      - --cache-from=${_LOCATION}-docker.pkg.dev/${_PROJECT}/${_REPO}/${_IMAGE}:${_TAG}
+      - .
+
+images:
+  - ${_LOCATION}-docker.pkg.dev/${_PROJECT}/${_REPO}/${_IMAGE}:${_TAG}
+
+options:
+  machineType: E2_HIGHCPU_8
+  logging: CLOUD_LOGGING_ONLY

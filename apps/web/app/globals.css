@@ -1,0 +1,440 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Semantic — Light world (warm grey / off-white, white cards) */
+  --background: oklch(0.96 0.003 160); /* #f0f2f1 near-white section bg */
+  --foreground: oklch(0.21 0 0); /* gray-900 headings */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.93 0.002 160);
+  --muted-foreground: oklch(0.55 0 0); /* gray-500 body */
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.6 0.1969 37.88);
+  --border: oklch(0 0 0 / 6%); /* hairline — no hard borders */
+  --input: oklch(0 0 0 / 10%);
+  --ring: oklch(0.66 0.2 35); /* orange-tinted focus ring */
+
+  /* Charts — Light */
+  --chart-1: oklch(0.65 0.2 30);
+  --chart-2: oklch(0.65 0.2 150);
+  --chart-3: oklch(0.65 0.2 260);
+  --chart-4: oklch(0.65 0.2 330);
+  --chart-5: oklch(0.65 0.2 60);
+
+  /* Brand — hot orange is the ONLY saturated brand color, use sparingly */
+  --color-brand: oklch(0.66 0.2 38); /* #F75B1E */
+  --color-brand-rgb: 247, 91, 30;
+  --color-dark: oklch(0.209 0 0);
+  --color-light: oklch(0.995 0.008 90);
+  --color-gray: oklch(0.535 0 0);
+  --color-gray-light: oklch(0.965 0 0);
+  /* Near-black UI gradient — buttons / "Power On" (#27282f → #0d0c0f) */
+  --color-primary-gradient-start: oklch(0.31 0.006 270);
+  --color-primary-gradient-end: oklch(0.18 0.004 280);
+
+  /* Canvas background used by surface-popover */
+  --color-bg-canvas: oklch(0.97 0 0);
+
+  /* Signal colors (12 social signals) — base/fill tone (tuned for dark surfaces) */
+  --signal-agreement: oklch(0.72 0.19 155);
+  --signal-confidence: oklch(0.72 0.16 145);
+  --signal-confusion: oklch(0.72 0.22 330);
+  --signal-disagreement: oklch(0.72 0.19 25);
+  --signal-disengagement: oklch(0.65 0.18 15);
+  --signal-engagement: oklch(0.78 0.2 140);
+  --signal-frustration: oklch(0.65 0.24 30);
+  --signal-hesitation: oklch(0.8 0.16 85);
+  --signal-interest: oklch(0.72 0.2 290);
+  --signal-skepticism: oklch(0.82 0.2 115);
+  --signal-stress: oklch(0.65 0.25 15);
+  --signal-uncertainty: oklch(0.72 0.14 235);
+
+  /*
+   * Signal foreground tone — used for text, thin borders, and badge fills that
+   * sit on light surfaces. Darkened (~0.5 L) with a touch more chroma so each
+   * signal stays legible against white. In dark mode these collapse back to the
+   * base fill tone (see `.dark` below).
+   */
+  --signal-text-agreement: oklch(0.52 0.16 155);
+  --signal-text-confidence: oklch(0.52 0.14 145);
+  --signal-text-confusion: oklch(0.52 0.2 330);
+  --signal-text-disagreement: oklch(0.53 0.2 25);
+  --signal-text-disengagement: oklch(0.5 0.18 15);
+  --signal-text-engagement: oklch(0.54 0.18 140);
+  --signal-text-frustration: oklch(0.52 0.22 30);
+  --signal-text-hesitation: oklch(0.55 0.14 85);
+  --signal-text-interest: oklch(0.52 0.2 290);
+  --signal-text-skepticism: oklch(0.56 0.16 115);
+  --signal-text-stress: oklch(0.51 0.22 15);
+  --signal-text-uncertainty: oklch(0.48 0.13 235);
+
+  /* Radius */
+  --radius: 0.625rem;
+
+  /* Shadows — the "soft" signature. Never plain shadow-md. */
+  /* Bento card: hairline ring + soft drop, no border. */
+  --shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --shadow-soft:
+    0px 1px 2px -1px rgba(0, 0, 0, 0.06), 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+  --shadow-card: var(--shadow-border), var(--shadow-soft);
+  /* Floating pill / nav: 6-stop ultra-low-opacity stacked shadow. */
+  --shadow-float:
+    rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0.5px,
+    rgba(0, 0, 0, 0.02) 0px 3px 3px 1.5px, rgba(0, 0, 0, 0.02) 0px 6px 6px -3px,
+    rgba(0, 0, 0, 0.02) 0px 12px 12px -6px,
+    rgba(0, 0, 0, 0.02) 0px 24px 24px -12px;
+  --shadow-button-inset: 0px 0px 1px 1px oklch(1 0 0 / 8%) inset;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-overlay: 10;
+  --z-sticky: 20;
+  --z-nav: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+
+  /* Motion — durations */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 450ms;
+  --duration-reveal: 700ms;
+  --duration-idle: 4s;
+
+  /* Motion — easing */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1); /* house ease-out for reveals */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-idle: cubic-bezier(0.37, 0, 0.63, 1);
+
+  /* Fonts (set by next/font, with fallbacks) */
+  --font-sans-fallback:
+    var(--font-geist-sans), system-ui, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  --font-mono-var: var(--font-geist-mono), "Geist Mono", ui-monospace;
+}
+
+.dark {
+  /* Semantic — Dark world (near-black, frosted translucent surfaces) */
+  --background: oklch(0.13 0.008 280); /* #0a0a0f near-black */
+  --foreground: oklch(0.97 0.008 280); /* #f0f0ff slightly cool white */
+  --card: oklch(1 0 0 / 6%); /* frosted translucent surface */
+  --card-foreground: oklch(0.97 0.008 280);
+  --popover: oklch(0.16 0.008 280);
+  --popover-foreground: oklch(0.97 0.008 280);
+  --primary: oklch(0.97 0.008 280);
+  --primary-foreground: oklch(0.155 0 0);
+  --secondary: oklch(1 0 0 / 8%);
+  --secondary-foreground: oklch(0.965 0 0);
+  --muted: oklch(1 0 0 / 6%);
+  --muted-foreground: oklch(1 0 0 / 50%); /* white/50 body */
+  --accent: oklch(1 0 0 / 8%);
+  --accent-foreground: oklch(0.965 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.7 0.1969 37.88);
+  --border: oklch(1 0 0 / 6%); /* hairline white/[0.06] */
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.66 0.2 38);
+
+  /* Charts — Dark */
+  --chart-1: oklch(0.75 0.18 30);
+  --chart-2: oklch(0.75 0.18 150);
+  --chart-3: oklch(0.75 0.18 260);
+  --chart-4: oklch(0.75 0.18 330);
+  --chart-5: oklch(0.75 0.18 60);
+
+  /* Canvas background used by surface-popover */
+  --color-bg-canvas: oklch(0.225 0 0);
+
+  /* On dark surfaces the bright fill tone is already the readable tone. */
+  --signal-text-agreement: var(--signal-agreement);
+  --signal-text-confidence: var(--signal-confidence);
+  --signal-text-confusion: var(--signal-confusion);
+  --signal-text-disagreement: var(--signal-disagreement);
+  --signal-text-disengagement: var(--signal-disengagement);
+  --signal-text-engagement: var(--signal-engagement);
+  --signal-text-frustration: var(--signal-frustration);
+  --signal-text-hesitation: var(--signal-hesitation);
+  --signal-text-interest: var(--signal-interest);
+  --signal-text-skepticism: var(--signal-skepticism);
+  --signal-text-stress: var(--signal-stress);
+  --signal-text-uncertainty: var(--signal-uncertainty);
+
+  /* On dark surfaces depth comes from translucency + hairline, not shadow. */
+  --shadow-border: 0 0 0 1px oklch(1 0 0 / 6%);
+  --shadow-soft:
+    0px 1px 2px -1px oklch(0 0 0 / 30%), 0px 8px 24px -8px oklch(0 0 0 / 40%);
+  --shadow-float:
+    0 0 0 1px oklch(1 0 0 / 6%), 0px 12px 32px -8px oklch(0 0 0 / 50%);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tailwind v4 theme mapping                                           */
+/* ------------------------------------------------------------------ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-brand: var(--color-brand);
+
+  --color-signal-agreement: var(--signal-agreement);
+  --color-signal-confidence: var(--signal-confidence);
+  --color-signal-confusion: var(--signal-confusion);
+  --color-signal-disagreement: var(--signal-disagreement);
+  --color-signal-disengagement: var(--signal-disengagement);
+  --color-signal-engagement: var(--signal-engagement);
+  --color-signal-frustration: var(--signal-frustration);
+  --color-signal-hesitation: var(--signal-hesitation);
+  --color-signal-interest: var(--signal-interest);
+  --color-signal-skepticism: var(--signal-skepticism);
+  --color-signal-stress: var(--signal-stress);
+  --color-signal-uncertainty: var(--signal-uncertainty);
+
+  --color-signal-text-agreement: var(--signal-text-agreement);
+  --color-signal-text-confidence: var(--signal-text-confidence);
+  --color-signal-text-confusion: var(--signal-text-confusion);
+  --color-signal-text-disagreement: var(--signal-text-disagreement);
+  --color-signal-text-disengagement: var(--signal-text-disengagement);
+  --color-signal-text-engagement: var(--signal-text-engagement);
+  --color-signal-text-frustration: var(--signal-text-frustration);
+  --color-signal-text-hesitation: var(--signal-text-hesitation);
+  --color-signal-text-interest: var(--signal-text-interest);
+  --color-signal-text-skepticism: var(--signal-text-skepticism);
+  --color-signal-text-stress: var(--signal-text-stress);
+  --color-signal-text-uncertainty: var(--signal-text-uncertainty);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-sans: var(--font-sans-fallback);
+  --font-mono: var(--font-mono-var), ui-monospace, monospace;
+
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-idle: var(--ease-idle);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base layer                                                          */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography scale utilities (marketing)                              */
+/* ------------------------------------------------------------------ */
+
+@utility text-display {
+  @apply text-4xl font-semibold tracking-tight sm:text-5xl;
+}
+@utility text-h1 {
+  @apply text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl;
+}
+@utility text-h2 {
+  @apply text-2xl font-semibold tracking-tight md:text-3xl;
+}
+@utility text-h3 {
+  @apply text-xl font-semibold tracking-tight md:text-2xl;
+}
+@utility text-h4 {
+  @apply text-lg font-semibold tracking-tight;
+}
+@utility text-body-lg {
+  @apply text-base leading-relaxed md:text-lg;
+}
+@utility text-body {
+  @apply text-sm leading-relaxed md:text-base;
+}
+@utility text-body-sm {
+  @apply text-xs leading-relaxed md:text-sm;
+}
+@utility text-caption {
+  @apply text-xs leading-normal;
+}
+@utility text-label {
+  @apply font-mono text-sm font-semibold uppercase tracking-[0.2em];
+}
+@utility text-nav {
+  @apply font-mono text-sm font-medium uppercase tracking-wide;
+}
+@utility text-badge {
+  @apply font-mono text-xs font-medium;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout utilities                                                    */
+/* ------------------------------------------------------------------ */
+
+@utility container-page {
+  @apply mx-auto px-4 lg:px-8 xl:max-w-[80rem];
+}
+@utility container-wide {
+  @apply mx-auto px-4 lg:px-8 xl:max-w-[90rem];
+}
+
+@utility section-py-sm {
+  @apply py-12 lg:py-16;
+}
+@utility section-py {
+  @apply py-16 lg:py-24;
+}
+@utility section-py-lg {
+  @apply py-24 lg:py-32;
+}
+@utility gap-section {
+  @apply gap-12 lg:gap-16;
+}
+@utility gap-card {
+  @apply gap-6 lg:gap-8;
+}
+@utility gap-content {
+  @apply gap-3 lg:gap-4;
+}
+@utility max-w-reading {
+  @apply max-w-[65ch];
+}
+
+/* ------------------------------------------------------------------ */
+/* Surface utilities                                                   */
+/* ------------------------------------------------------------------ */
+
+@utility glass {
+  @apply border border-white/[0.06] bg-white/[0.06] backdrop-blur-xl;
+}
+
+@utility surface {
+  background: var(--card);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-card);
+}
+
+@utility surface-popover {
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-float {
+  box-shadow: var(--shadow-float);
+}
+
+@utility border-box-shadow {
+  box-shadow:
+    0px 0px 0px 1px rgba(0, 0, 0, 0.06),
+    0px 1px 2px -1px rgba(0, 0, 0, 0.06),
+    0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Spinner                                                             */
+/* ------------------------------------------------------------------ */
+
+@keyframes spinner-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion                                                      */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
